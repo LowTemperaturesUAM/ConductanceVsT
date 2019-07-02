@@ -1,4 +1,7 @@
 %%
+genpath('Functions');
+addpath(genpath('Functions'));
+
 [FileName, FilePath] = uigetfile('*.blq','Cargar blq');
 load([FilePath 'Temperature.mat']);
 %%
@@ -43,8 +46,8 @@ for j=1:NCurv
     MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
     MatrizDOS(:,j) = normalizacionPA(0.008,0.0075,Voltage,MatrizDOS(:,j),2048,2048);
 end
-figure
-plot(Voltage,dFermiDist)
+% figure
+% plot(Voltage,dFermiDist)
 
 %%
 figure(172)
@@ -99,12 +102,12 @@ figure
 plot(Temperature,Bottom,'o')
 %% Conv
 j = 1; %Número de curva
-TK = Temperature/1000;
+% TK = Temperature/1000;
 kB      = 8.617e-2;%meV/K
 Beta	= 1/(kB*TK(j));
 VmV = Voltage*1000;
 
-FermiDist	= 1./(1+exp(VmV*Beta));
+% FermiDist	= 1./(1+exp(VmV*Beta));
 dFermiDist	= (Beta*exp(Beta*VmV))./((1+exp(VmV*Beta)).^2); % Analítica
 %    dFermiDist	= -diff(FermiDist); % Numérica
 
@@ -129,3 +132,55 @@ figure
 hold on
 plot(Voltage,A,'k')
 plot(Voltage,B,'r')
+
+%% Conv con FFT
+j = 20; %Número de curva
+% TK = Temperature/1000;
+kB      = 8.617e-2;%meV/K
+Beta	= 1/(kB*TK(j));
+VmV = Voltage*1000;
+
+% FermiDist	= 1./(1+exp(VmV*Beta));
+dFermiDist	= (Beta*exp(Beta*VmV))./((1+exp(VmV*Beta)).^2); % Analítica
+%    dFermiDist	= -diff(FermiDist); % Numérica
+
+% figure
+% plot(Voltage, dFermiDist)
+
+FermiFFT = abs(fft(dFermiDist));
+CurvaFFT = abs(fft(MatrizNormalizada(:,j)));
+
+% DOSFFT = CurvaFFT./FermiFFT;
+DOS = ifft(CurvaFFT./FermiFFT);
+% figure
+% plot(Voltage,abs(FermiFFT))
+% hold on
+% plot(Voltage,abs(CurvaFFT))
+% % plot(Voltage,abs(DOSFFT))
+
+% J = edgetaper(MatrizNormalizada(:,j),dFermiDist);
+
+Curva = MatrizNormalizada(:,j);
+CurvaAmp = [flipud(Curva); Curva; flipud(Curva)];
+figure
+plot(Curva)
+% q = deconvlucy(MatrizNormalizada(:,j),dFermiDist);
+q = deconvlucy(CurvaAmp,dFermiDist);
+% q = deconvwnr(MatrizNormalizada(:,j),dFermiDist,100);
+% q = deconvwnr(CurvaAmp,dFermiDist,100);
+q = q(length(Curva)+1:length(Curva)*2);
+q = normalizacionPA(0.008,0.0075,Voltage,q,2048,2048);
+
+
+% DOS = normalizacionPA(0.008,0.0075,Voltage,DOS,2048,2048);
+
+r = conv(q,dFermiDist,'same');
+r = normalizacionPA(0.008,0.0075,Voltage,r,2048,2048);
+% [q,r] = deconv(MatrizConductancia(:,j),dFermiDist);
+% DOS = conv(MatrizConductancia(:,j),dFermiDist,'same');
+figure
+plot(Voltage,q,'b')
+hold on
+plot(Voltage,MatrizNormalizada(:,j),'k')
+plot(Voltage,r,'r')
+%   plot(Voltage,DOS,'g')

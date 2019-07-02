@@ -37,6 +37,9 @@ VmV = Voltage*1000;%Voltaje en mV
 TK = Temperature;%Temperatura en K
 MatrizDOS = zeros(size(MatrizCorriente));
 for j=1:NCurv
+    if TK(j) == 0
+        MatrizDOS(:,j) = MatrizConductancia(:,j);
+    else
     Beta	= 1/(kB*TK(j));
     
     dFermiDist = zeros(size(VmV(:,j)));
@@ -63,6 +66,6 @@ MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
     if flag
     MatrizDOS(:,j) = normalizacionPA(NormSup,NormInf,Voltage(:,j),MatrizDOS(:,j),2048,2048);
     end
-    
+    end
 end
 end

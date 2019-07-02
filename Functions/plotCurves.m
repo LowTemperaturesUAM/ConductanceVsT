@@ -1,4 +1,4 @@
-function [] = plotCurves(Voltage,Temperature,Matriz,zlabel)
+function [] = plotCurves(Voltage,Temperature,Matriz,ylabel,zlabel)
 A = size(Matriz);
 NCurv = A(2);
 figure
@@ -13,7 +13,7 @@ end
 b=gca;
 % b.Colormap = parula;
 % b.YDir='normal';
-b.YLabel.String = '\fontsize{15} Temperature (K)';
+b.YLabel.String = ylabel;
 b.XLabel.String = '\fontsize{15} Bias Voltage (mV)';
 b.ZLabel.String = zlabel;%'\fontsize{15} Normalized Conductance';
 b.LineWidth = 2;
