@@ -1,5 +1,5 @@
-function [Voltage,MatrizCorriente,Temperature] = selectPath(ForthBack)
-FilePath = uigetdir;
+function [Voltage,MatrizCorriente,Temperature,FilePath] = selectPath(ForthBack,startPath)
+FilePath = uigetdir(startPath);
 A = load([FilePath '/Temperature.mat']);
 Temperature = A.Temperature;
 

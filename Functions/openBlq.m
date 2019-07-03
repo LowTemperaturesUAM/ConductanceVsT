@@ -1,5 +1,5 @@
-function [curvas] = openBlq()
-[FileName, FilePath] = uigetfile('*.blq','Cargar blq');
+function [FileName,FilePath,curvas] = openBlq(startPath)
+[FileName, FilePath] = uigetfile('*.blq','Cargar blq',startPath);
 
 curvas = ReducedblqreaderV6([FilePath, FileName]);
 

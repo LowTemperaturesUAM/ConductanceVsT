@@ -2,8 +2,6 @@ function [VoltageNuevo,MatrizCorrienteNuevo,TemperatureNuevo] =...
     addCurve(Voltage,VoltageCurva,MatrizCorriente,CorrienteCurva,...
     Temperature,TemperaturaCurva,Index)
 A=size(Voltage);
-% disp(A(2))
-% which A
 
 if A(2) == 0
     VoltageNuevo = VoltageCurva;
