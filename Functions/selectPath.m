@@ -17,5 +17,4 @@ for i=1:NCurv
     Voltage(:,i) = curvas(ForthBack).data(:,1);
     MatrizCorriente(:,i) = curvas(ForthBack).data(:,2);
 end
-
 end
