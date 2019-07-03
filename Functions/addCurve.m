@@ -1,12 +1,13 @@
-function [VoltageNuevo,MatrizCorrienteNuevo,TemperatureNuevo] =...
+function [VoltageNuevo,MatrizCorrienteNuevo,TemperatureNuevo,MagneticFieldNuevo] =...
     addCurve(Voltage,VoltageCurva,MatrizCorriente,CorrienteCurva,...
-    Temperature,TemperaturaCurva,Index)
+    Temperature,MagneticField,TemperaturaCurva,MagneticFieldCurva,Index)
 A=size(Voltage);
 
 if A(2) == 0
     VoltageNuevo = VoltageCurva;
     MatrizCorrienteNuevo = CorrienteCurva;
     TemperatureNuevo = TemperaturaCurva;
+    MagneticFieldNuevo = MagneticFieldCurva;
 elseif A(2) >= Index
     VoltageNuevo = Voltage;
     VoltageNuevo(:,Index) = VoltageCurva;
@@ -16,6 +17,9 @@ elseif A(2) >= Index
         
     TemperatureNuevo = Temperature;
     TemperatureNuevo(Index) = TemperaturaCurva;
+    
+    MagneticFieldNuevo = MagneticField;
+    MagneticFieldNuevo(Index) = MagneticFieldCurva;
 else
     VoltageNuevo = zeros(length(VoltageCurva),Index);
     VoltageNuevo(:,1:Index-1) = Voltage;
@@ -28,6 +32,9 @@ else
     TemperatureNuevo = zeros(length(Temperature),1);
     TemperatureNuevo(1:Index-1) = Temperature;
     TemperatureNuevo(Index) = TemperaturaCurva;
-
+    
+    MagneticFieldNuevo = zeros(length(MagneticField),1);
+    MagneticFieldNuevo(1:Index-1) = MagneticField;
+    MagneticFieldNuevo(Index) = MagneticFieldCurva;
 end
 end

@@ -1,5 +1,5 @@
 function [MatrizConductancia,MatrizDOS,Matriz2Deriv] ...
-    = calculate(Voltage,MatrizCorriente,Temperature,PuntosDerivada,NormInf,NormSup,flag,HTFlag)
+    = calculate(Voltage,MatrizCorriente,Temperature,PuntosDerivada,NormInf,NormSup,flag)
 
 % NCurv = length(dir([FilePath, '/*.blq']));
 % curvas = ReducedblqreaderV6([FilePath, '/1.blq']);
@@ -36,7 +36,7 @@ kB      = 8.617e-2;
 VmV = Voltage*1000;%Voltaje en mV
 TK = Temperature;%Temperatura en K
 MatrizDOS = zeros(size(MatrizCorriente));
-if HTFlag
+
 for j=1:NCurv
     if TK(j) == 0
         MatrizDOS(:,j) = MatrizConductancia(:,j);
@@ -69,5 +69,5 @@ MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
     end
     end
 end
-end
+
 end
