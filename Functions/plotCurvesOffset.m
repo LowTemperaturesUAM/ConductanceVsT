@@ -14,12 +14,12 @@ for i=NCurv:-1:1 %Orden descendente para que la leyenda quede bien ordenada (de 
 %     plot(Voltage(:,i)*1000,Matriz(:,i)+i*Offset,'r')
 %     hold on
 %     else
-    plot(Voltage(:,i)*1000,Matriz(:,i)+i*Offset,'LineWidth',2)
+    plot(Voltage(:,i)*1000,Matriz(:,i)+(i-1)*Offset,'LineWidth',2)
     hold on    
 %     end
 end
 legend(fliplr(Leyenda),'Location','bestoutside')
-
+% fig.Children(end).ColorOrder = flipud(winter(NCurv));
 
 fig.Children(end).YLabel.String = zlabel; %'\fontsize{15} DOS';
 fig.Children(end).XLabel.String = '\fontsize{15} Energy (meV)';
@@ -30,6 +30,8 @@ fig.Children(end).YColor = [0 0 0];
 
 fig.Children(end).Box = 'On';
 fig.Children(end).FontWeight = 'bold';
+fig.Children(end).FontName = 'Arial';
+fig.Children(end).FontSize = 11;
 
 fig.Position = [711 159 398 704];
 end
