@@ -30,7 +30,7 @@ hold on
 xlabel('Temperature (K)')
 ylabel('\Delta (mV)')
 
-Struct.Analisis2.Gap = PicoVectorTop*1000;
+% Struct.Analisis.Gap = PicoVectorTop*1000;
 %%
 plotCurvesOffset(Struct.VoltageOffset,MatrizConductanciaPlana,Struct.Temperature,0.15,'\fontsize{15} Normalized Conductance',0)
 %%
@@ -41,7 +41,7 @@ fig = figure;
 % plot(Struct.Temperature, Struct.Analisis2.Gap, 'ko','MarkerSize',8,'LineWidth',2)
 hold on
 for i=1:length(Struct.Temperature)
-    plot(Struct.Temperature(i), Struct.Analisis2.Gap(i), 'o','MarkerSize',10,'LineWidth',2)
+    plot(Struct.Temperature(i), Struct.Analisis3.Gap(i), 'o','MarkerSize',10,'LineWidth',2)
 end
 
 b = fig.Children;
@@ -57,13 +57,14 @@ xlabel('\fontsize{15} Temperature (K)')
 ylabel('\fontsize{15} \Delta (meV)')
 hold on
 % plot(Struct1.Temperature, Struct1.Gap/2, 'ro-','MarkerSize',8,'LineWidth',2)
-Tc = 2.45;
+Tc = 7.2;
 kB      = 8.617e-2;
-Delta0 = 1.765*kB*Tc;
+% Delta0 = 1.765*kB*Tc;
+Delta0 = 1.45;
 plot(DeltaTemp(:,1)*Tc,DeltaTemp(:,2)*Delta0,'k-','LineWidth',2)
 % plot(BCS_GAP(:,1)*Tc,BCS_GAP(:,2)*Delta0,'r-','LineWidth',2)
-b.XLim = [0 3];
-b.YLim = [0 0.5];
+% b.XLim = [0 3];
+% b.YLim = [0 0.5];
 
 set(gca,'children',flipud(get(gca,'children'))) %Fit al fondo
 %%

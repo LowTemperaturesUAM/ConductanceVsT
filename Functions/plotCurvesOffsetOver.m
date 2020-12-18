@@ -18,7 +18,7 @@ for i=NCurv:-1:1 %Orden descendente para que la leyenda quede bien ordenada (de 
 %     plot(Voltage(:,i)*1000,Matriz(:,i)+i*Offset,'r')
 %     hold on
 %     else
-    plot((Voltage(:,i)-OffsetVoltage(i))*1000,Matriz(:,i)+(i-1)*Offset,'-','Color',[0.2 0.2 0.2],'LineWidth',0.5)
+    plot((Voltage(:,i)-OffsetVoltage(i))*1000,Matriz(:,i)+(i-1)*Offset,'-','Color',[0.2 0.2 0.2],'LineWidth',1.5)
     hold on    
 %     end
 end

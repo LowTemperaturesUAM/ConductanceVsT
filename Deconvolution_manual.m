@@ -11,8 +11,8 @@ for i=1:length(Struct.Temperature)
 end
 
 %% Visualize Fermi distribution
-k=1;
-plot(Struct.VoltageOffset(:,k),Struct.FermiDist(:,k))
+k=8;
+plot(Struct.VoltageOffset(:,k),Struct.dFermiDist(:,k))
 
 %% Initial guess for DOS
 DOSGuess = Struct.MatrizConductancia(:,1);
@@ -24,7 +24,7 @@ Conductancia = normalizacionPA(1.7e-3, 1.5e-3, Struct.VoltageOffset(:,1),Conduct
 
 plot(Struct.VoltageOffset(:,1),Struct.MatrizConductancia(:,1))
 hold on
-Offset = 9.1e-5;
+Offset = 3.2e-5;
 plot(Struct.VoltageOffset(:,1)-Offset,Conductancia)
 
 %% Save initial guess
@@ -33,23 +33,23 @@ DOS(:,k) = DOSGuess;
 MatrizConvolution(:,k) = Conductancia;
 VoltageOffsetConvolution(:,k) = Struct.VoltageOffset(:,k)-Offset;
 %% Keep on
-k = 10;
-factor = .4;
+k = 6;
+factor = .94;
 % factorVertical = 1.2;
 % factorVerticalLeft = 0.6;
 % factorVerticalRight = 0.6;
 factorNeg1 = 1;
 factorPos = 1;
 
-factorNeg = 0.35;
+factorNeg = 0.89;
 
-factorPosRight = 0.4;
-factorPosLeft =0.2;
+factorPosRight = 0.7;
+factorPosLeft =1;
 
-Offset = 6.5e-5;
+Offset = 3.2e-5;
 
-VerticalOffsetThreshold = 7e-4;
-VerticalOffset = 0.17;
+VerticalOffsetThreshold = 10e-4;
+VerticalOffset = 0.06;
 
 DOSGuess = Struct.MatrizConductancia(:,1);
 % DOSGuess = DOS(:,1);
@@ -102,6 +102,41 @@ Analisis.VerticalOffset(k) = VerticalOffset;
 Analisis.VerticalOffsetThreshold(k) = VerticalOffsetThreshold;
 %%
 Struct.Analisis2 = Analisis;
+%% Keep on (repetido para el caso grande)
+k = 6;
+factor = .94;
+
+factorPos = 0.89;
+factorNeg = 0.89;
+
+Offset = 3.2e-5;
+
+DOSGuess = Struct.MatrizConductancia(:,1);
+% DOSGuess = DOS(:,1);
+[~,I] = min(DOSGuess);
+
+DOSGuess = shrink(DOSGuess,factor);
+% DOSGuess = stretchVertical(DOSGuess,factorPos,factorNeg);
+
+DOSGuess = stretchVertical(DOSGuess,factorPos,factorNeg);
+
+fig = figure;
+plot(Struct.VoltageOffset(:,k),DOSGuess)
+hold on
+
+
+Conductancia = conv(Struct.dFermiDist(:,k),DOSGuess,'same');
+
+Conductancia = normalizacionPA(1.7e-3, 1.5e-3, Struct.VoltageOffset(:,k),Conductancia,2048,2048);
+
+% VerticalOffset = 0;
+
+fig = figure;
+plot(Struct.VoltageOffset(:,k),Struct.MatrizConductancia(:,k))
+hold on
+
+% plot(Struct.VoltageOffset(:,k)-Offset,Conductancia-VerticalOffset)
+plot(Struct.VoltageOffset(:,k)-Offset,Conductancia)
 %% Keep on S-S
 k = 1;
 factor = .61;
@@ -208,7 +243,7 @@ b.YLim = [0 3.6];
 b.Layer = 'Top';
 
 %% DOS smoothing
-k = 12;
+k = 1;
 
 Voltaje = Struct.Analisis2.VoltageConvolution(:,k);
 DOS = Struct.Analisis2.DOS(:,k);
@@ -247,17 +282,17 @@ ConductanciaSmooth = smoothDOS(Struct.Analisis2.VoltageConvolution,Struct.Analis
 %%
 Struct.Analisis2.DOSSmooth = ConductanciaSmooth;
 %% Plotting DOSSmooth
-plotCurvesOffset(Struct.Analisis2.VoltageConvolution,Struct.Analisis2.DOSSmooth,Struct.Temperature,0.2,'\fontsize{15} DOS (arb. units)',1)
+plotCurvesOffset(Struct.Analisis2.VoltageConvolution,Struct.Analisis2.DOSSmoothExtra,Struct.Temperature,0.2,'\fontsize{15} DOS (arb. units)',1)
 % Struct.Analisis1.VoltageConvolution = VoltageOffsetConvolution;
 
 fig = gcf;
 b = fig.Children(end);
-b.XLim = [-1.5 1.5];
-b.YLim = [0 3.9];
+b.XLim = [-1 1];
+b.YLim = [0 3];
 b.Layer = 'Top';
 b.ColorOrder = flipud(AzulRojo);
 %% Crear colormap
-NPuntos = 13;
+NPuntos = 10;
 Vector = linspace(0,1,NPuntos)';
 AzulRojo = zeros(NPuntos,3);
 
@@ -322,18 +357,82 @@ end
 %%
 Struct.Analisis2.MatrizConvolutionSmooth = MatrizConvolutionSmooth;
 %% Primer offset plot (measured conductance)
-plotCurvesOffset(Struct.VoltageOffset,Struct.MatrizConductanciaSmooth,Struct.Temperature,0.2,'\fontsize{15} DOS (arb. units)',1)
+plotCurvesOffset(Struct.VoltageOffset,Struct.MatrizConductanciaSmoothExtra,Struct.Temperature,0.2,'\fontsize{15} DOS (arb. units)',1)
 % Struct.Analisis1.VoltageConvolution = VoltageOffsetConvolution;
 
 fig = gcf;
 b = fig.Children(end);
-b.XLim = [-1.5 1.5];
-b.YLim = [0 3.9];
+b.XLim = [-1 1];
+b.YLim = [0 3];
 b.Layer = 'Top';
 b.ColorOrder = flipud(AzulRojo);
 
 %%
 Offset = Struct.Analisis2.Offset;
-plotCurvesOffsetOver(Struct.Analisis2.VoltageConvolution,Struct.Analisis2.MatrizConvolutionSmooth,Struct.Temperature,0.2,'\fontsize{15} DOS (arb. units)',1,Offset)
+plotCurvesOffsetOver(Struct.Analisis2.VoltageConvolution,Struct.Analisis2.MatrizConvolutionSmoothExtraMirror,Struct.Temperature,0.2,'\fontsize{15} DOS (arb. units)',1,Offset)
+
+%% Primer offset plot (measured conductance)
+plotCurvesOffset(StructNew.VoltageOffset,StructNew.MatrizConductancia,StructNew.MagneticField,0,'\fontsize{15} DOS (arb. units)',0)
+% Struct.Analisis1.VoltageConvolution = VoltageOffsetConvolution;
+
+fig = gcf;
+b = fig.Children(end);
+b.XLim = [-1 1];
+b.YLim = [0 3];
+b.Layer = 'Top';
+% b.ColorOrder = flipud(AzulRojo);
 
 
+%% Test mirror DOS
+DOS = Struct.Analisis2.DOSSmoothExtra(:,1);
+
+[~,I] = min(DOS);
+DOSMirror = DOS;
+for i=1:900
+    DOSMirror(I+i) = DOS(I-i);
+end
+
+figure
+plot(Struct.Analisis2.VoltageConvolution(:,1),DOSMirror)
+
+%% MIRRORING DOS
+MatrizDOSMirror = Struct.Analisis2.DOSSmoothExtra;
+
+[~,NCurves] = size(MatrizDOSMirror);
+
+for k=1:NCurves
+    DOS = MatrizDOSMirror(:,k);
+    [~,I] = min(DOS);
+    DOSMirror = DOS;
+    
+    for i=1:900
+        DOSMirror(I+i) = DOS(I-i);
+    end
+    
+    MatrizDOSMirror(:,k) = DOSMirror;
+end
+%% SAVE
+Struct.Analisis2.DOSSmoothExtraMirror = MatrizDOSMirror;
+
+%% Plotting DOSSmoothMirror
+plotCurvesOffset(Struct.Analisis2.VoltageConvolution,Struct.Analisis2.DOSSmoothExtraMirror,Struct.Temperature,0.2,'\fontsize{15} DOS (arb. units)',1)
+% Struct.Analisis1.VoltageConvolution = VoltageOffsetConvolution;
+
+fig = gcf;
+b = fig.Children(end);
+b.XLim = [-1 1];
+b.YLim = [0 3];
+b.Layer = 'Top';
+b.ColorOrder = flipud(AzulRojo);
+
+%% Convolucionar
+MatrizConvolutionSmooth = Struct.Analisis2.DOSSmoothExtraMirror;
+
+[~,NCurves] = size(MatrizConvolutionSmooth);
+
+for k=1:NCurves
+    MatrizConvolutionSmooth(:,k) = conv(Struct.dFermiDist(:,k),MatrizConvolutionSmooth(:,k),'same');
+    MatrizConvolutionSmooth(:,k) = normalizacionPA(1.7e-3, 1.5e-3, Struct.Analisis2.VoltageConvolution(:,k),MatrizConvolutionSmooth(:,k),2048,2048);
+end
+%% SAVE
+Struct.Analisis2.MatrizConvolutionSmoothExtraMirror = MatrizConvolutionSmooth;
