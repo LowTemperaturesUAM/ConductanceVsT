@@ -14,7 +14,7 @@ if flag
 end
 
 
-fig=figure(9847);
+fig=figure(73838);
 fig.Position = [680 558 1000 420];
 hold on
 ax1 = subplot(1,2,1);
@@ -27,10 +27,10 @@ plot(VoltageCurva*1000,ConductanciaCurva,'k-','LineWidth',2)
 grid on
 
 fig.Children(1).YLabel.String = '\fontsize{15} Conductance';
-fig.Children(1).XLabel.String = '\fontsize{15} Bias Voltage (meV)';
+fig.Children(1).XLabel.String = '\fontsize{15} Bias Voltage (mV)';
 
 fig.Children(2).YLabel.String = '\fontsize{15} Intensity (A)';
-fig.Children(2).XLabel.String = '\fontsize{15} Bias Voltage (meV)';
+fig.Children(2).XLabel.String = '\fontsize{15} Bias Voltage (mV)';
 
 fig.Children(1).LineWidth = 2;
 fig.Children(1).XColor = [0 0 0];

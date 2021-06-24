@@ -41,7 +41,7 @@ fig = figure;
 % plot(Struct.Temperature, Struct.Analisis2.Gap, 'ko','MarkerSize',8,'LineWidth',2)
 hold on
 for i=1:length(Struct.Temperature)
-    plot(Struct.Temperature(i), Struct.Analisis3.Gap(i), 'o','MarkerSize',10,'LineWidth',2)
+    plot(Struct.Temperature(i), Struct.Analisis.Gap(i)*1000, 'o','MarkerSize',10,'LineWidth',2)
 end
 
 b = fig.Children;
@@ -57,10 +57,11 @@ xlabel('\fontsize{15} Temperature (K)')
 ylabel('\fontsize{15} \Delta (meV)')
 hold on
 % plot(Struct1.Temperature, Struct1.Gap/2, 'ro-','MarkerSize',8,'LineWidth',2)
-Tc = 7.2;
+Tc = 8.6;
 kB      = 8.617e-2;
-% Delta0 = 1.765*kB*Tc;
-Delta0 = 1.45;
+Delta0 = 1.765*kB*Tc;
+% Delta0 = 2;
+% Tc = Delta0/(1.765*kB);
 plot(DeltaTemp(:,1)*Tc,DeltaTemp(:,2)*Delta0,'k-','LineWidth',2)
 % plot(BCS_GAP(:,1)*Tc,BCS_GAP(:,2)*Delta0,'r-','LineWidth',2)
 % b.XLim = [0 3];
@@ -120,11 +121,11 @@ hold on
 plot(Voltaje,C)
 plot(Voltaje(locsPixel),peaksPixel,'ko')
 %%
-C = Struct.Analisis2.DOS(:,1);
-Voltaje = 1000*Struct.Analisis2.VoltageConvolution(:,1);
+C = Struct.Analisis.DOS(:,1);
+Voltaje = 1000*Struct.Analisis.VoltageOffsetConvolution(:,1);
 % Voltaje = Struct.VoltageOffset(:,1);
 % curva = detrend(curva,1);
-C = smoothdata(C,'gaussian',10);
+% C = smoothdata(C,'gaussian',10);
 [peaksPixel,locsPixel] = findpeaks(C);
 [peaks,locs] = findpeaks(flipud(C),flipud(Voltaje));
 PicoTop = find(locs>0.0001);

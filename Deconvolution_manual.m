@@ -24,7 +24,7 @@ Conductancia = normalizacionPA(1.7e-3, 1.5e-3, Struct.VoltageOffset(:,1),Conduct
 
 plot(Struct.VoltageOffset(:,1),Struct.MatrizConductancia(:,1))
 hold on
-Offset = 3.2e-5;
+Offset = 8e-5;
 plot(Struct.VoltageOffset(:,1)-Offset,Conductancia)
 
 %% Save initial guess
@@ -33,7 +33,7 @@ DOS(:,k) = DOSGuess;
 MatrizConvolution(:,k) = Conductancia;
 VoltageOffsetConvolution(:,k) = Struct.VoltageOffset(:,k)-Offset;
 %% Keep on
-k = 6;
+k = 2;
 factor = .94;
 % factorVertical = 1.2;
 % factorVerticalLeft = 0.6;
@@ -56,12 +56,12 @@ DOSGuess = Struct.MatrizConductancia(:,1);
 [~,I] = min(DOSGuess);
 
 DOSGuess = shrink(DOSGuess,factor);
-% DOSGuess = stretchVertical(DOSGuess,factorPos,factorNeg);
+DOSGuess = stretchVertical(DOSGuess,factorPos,factorNeg);
 
-%Right
-DOSGuess(1:I) = stretchVertical(DOSGuess(1:I),factorPosRight,factorNeg1);
-%Left
-DOSGuess(I+1:end) = stretchVertical(DOSGuess(I+1:end),factorPosLeft,factorNeg1);
+% %Right
+% DOSGuess(1:I) = stretchVertical(DOSGuess(1:I),factorPosRight,factorNeg1);
+% %Left
+% DOSGuess(I+1:end) = stretchVertical(DOSGuess(I+1:end),factorPosLeft,factorNeg1);
 
 Mask = find(abs(Struct.VoltageOffset(:,1))<VerticalOffsetThreshold);
 DOSGuess(Mask) = DOSGuess(Mask)-VerticalOffset;
