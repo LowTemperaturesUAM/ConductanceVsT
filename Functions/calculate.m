@@ -41,14 +41,12 @@ for j=1:NCurv
     if TK(j) == 0
         MatrizDOS(:,j) = MatrizConductancia(:,j);
     else
-    Beta	= 1/(kB*TK(j));
-    
+        Beta = 1/(kB*TK(j));
+        %dFermiDist	= (Beta*exp(Beta*VmV(:,j)))./((1+exp(VmV(:,j)*Beta)).^2); % AnalÃ­tica
+        %dFermiDist	= -diff(FermiDist); % NumÃ©rica
+        %New expression for the analytic form
+        dFermiDist = Beta./(4*(cosh(Beta*VmV(:,j)/2)).^2);
 
-    %dFermiDist	= (Beta*exp(Beta*VmV(:,j)))./((1+exp(VmV(:,j)*Beta)).^2); % Analítica
-    %New expression for the analytic form
-    dFermiDist = Beta./(4*(cosh(Beta*VmV(:,j)/2)).^2);
-%    dFermiDist	= -diff(FermiDist); % Numérica
-%    end
 
 % figure
 % plot(Voltage(:,j),dFermiDist)
