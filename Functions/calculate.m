@@ -43,17 +43,12 @@ for j=1:NCurv
     else
     Beta	= 1/(kB*TK(j));
     
-    dFermiDist = zeros(size(VmV(:,j)));
-    if TK(j)<0.2
-        V = VmV(:,j);
-        Mask = find(abs(V)<1);
-        dFermiDist(Mask) = (Beta*exp(Beta*V(Mask)))./((1+exp(V(Mask)*Beta)).^2);
-    else
-    
-%     FermiDist	= 1./(1+exp(VmV(:,i)*Beta));
-    dFermiDist	= (Beta*exp(Beta*VmV(:,j)))./((1+exp(VmV(:,j)*Beta)).^2); % Analítica
+
+    %dFermiDist	= (Beta*exp(Beta*VmV(:,j)))./((1+exp(VmV(:,j)*Beta)).^2); % Analítica
+    %New expression for the analytic form
+    dFermiDist = Beta./(4*(cosh(Beta*VmV(:,j)/2)).^2);
 %    dFermiDist	= -diff(FermiDist); % Numérica
-    end
+%    end
 
 % figure
 % plot(Voltage(:,j),dFermiDist)
