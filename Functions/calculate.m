@@ -46,7 +46,7 @@ for j=1:NCurv
         %dFermiDist	= -diff(FermiDist); % Numérica
         %New expression for the analytic form
         dFermiDist = Beta./(4*(cosh(Beta*VmV(:,j)/2)).^2);
-
+        MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
 
 % figure
 % plot(Voltage(:,j),dFermiDist)
@@ -56,10 +56,10 @@ for j=1:NCurv
 %     assignin('base','MatrizConductancia',MatrizConductancia)
 %     assignin('base','Temperature',Temperature)
 
-MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
-    if flag
-    MatrizDOS(:,j) = normalizacionPA(NormSup,NormInf,Voltage(:,j),MatrizDOS(:,j),2048,2048);
-    end
+
+        if flag
+        MatrizDOS(:,j) = normalizacionPA(NormSup,NormInf,Voltage(:,j),MatrizDOS(:,j),2048,2048);
+        end
     end
 end
 
