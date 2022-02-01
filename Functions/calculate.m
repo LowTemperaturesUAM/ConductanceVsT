@@ -41,19 +41,12 @@ for j=1:NCurv
     if TK(j) == 0
         MatrizDOS(:,j) = MatrizConductancia(:,j);
     else
-    Beta	= 1/(kB*TK(j));
-    
-    dFermiDist = zeros(size(VmV(:,j)));
-    if TK(j)<0.2
-        V = VmV(:,j);
-        Mask = find(abs(V)<1);
-        dFermiDist(Mask) = (Beta*exp(Beta*V(Mask)))./((1+exp(V(Mask)*Beta)).^2);
-    else
-    
-%     FermiDist	= 1./(1+exp(VmV(:,i)*Beta));
-    dFermiDist	= (Beta*exp(Beta*VmV(:,j)))./((1+exp(VmV(:,j)*Beta)).^2); % Analítica
-%    dFermiDist	= -diff(FermiDist); % Numérica
-    end
+        Beta = 1/(kB*TK(j));
+        %dFermiDist	= (Beta*exp(Beta*VmV(:,j)))./((1+exp(VmV(:,j)*Beta)).^2); % AnalÃ­tica
+        %dFermiDist	= -diff(FermiDist); % NumÃ©rica
+        %New expression for the analytic form
+        dFermiDist = Beta./(4*(cosh(Beta*VmV(:,j)/2)).^2);
+        MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
 
 % figure
 % plot(Voltage(:,j),dFermiDist)
@@ -63,10 +56,10 @@ for j=1:NCurv
 %     assignin('base','MatrizConductancia',MatrizConductancia)
 %     assignin('base','Temperature',Temperature)
 
-MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
-    if flag
-    MatrizDOS(:,j) = normalizacionPA(NormSup,NormInf,Voltage(:,j),MatrizDOS(:,j),2048,2048);
-    end
+
+        if flag
+        MatrizDOS(:,j) = normalizacionPA(NormSup,NormInf,Voltage(:,j),MatrizDOS(:,j),2048,2048);
+        end
     end
 end
 
