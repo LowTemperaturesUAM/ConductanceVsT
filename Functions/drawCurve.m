@@ -15,7 +15,7 @@ end
 
 
 fig=figure(73838);
-fig.Position = [680 558 1000 420];
+fig.Position(2:4) = [100 1000 420];
 hold on
 ax1 = subplot(1,2,1);
 cla(ax1)
@@ -25,6 +25,8 @@ ax2 = subplot(1,2,2);
 cla(ax2)
 plot(VoltageCurva*1000,ConductanciaCurva,'k-','LineWidth',2)
 grid on
+%axis limits slighly outside the curve limits
+xlim([ax1,ax2],1001*[min(VoltageCurva), max(VoltageCurva)])
 
 fig.Children(1).YLabel.String = '\fontsize{15} Conductance';
 fig.Children(1).XLabel.String = '\fontsize{15} Bias Voltage (mV)';
