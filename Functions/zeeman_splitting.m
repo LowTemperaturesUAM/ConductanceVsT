@@ -27,7 +27,8 @@ DOSAUX = DOSAUX(NPoints+1:2*NPoints);
 %Función de Fermi
 kB = 8.617e-2; %meV/K
 Beta = 1/(kB*Temperature);
-dFermiDist = (Beta*exp(Beta*Voltage))./((1+exp(Voltage*Beta)).^2);
+%dFermiDist = (Beta*exp(Beta*Voltage))./((1+exp(Voltage*Beta)).^2);
+dFermiDist = FermiDeriv(Temperature,Voltage);
 
 %Convolucionamos
 Conductance = conv(dFermiDist,DOSAUX,'same');

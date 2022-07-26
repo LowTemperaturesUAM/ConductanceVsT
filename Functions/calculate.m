@@ -45,7 +45,8 @@ for j=1:NCurv
         %dFermiDist	= (Beta*exp(Beta*VmV(:,j)))./((1+exp(VmV(:,j)*Beta)).^2); % Analítica
         %dFermiDist	= -diff(FermiDist); % Numérica
         %New expression for the analytic form
-        dFermiDist = Beta./(4*(cosh(Beta*VmV(:,j)/2)).^2);
+        %dFermiDist = Beta./(4*(cosh(Beta*VmV(:,j)/2)).^2);
+        dFermiDist = FermiDeriv(TK(j),VmV(:,j));
         MatrizDOS(:,j) = deconvlucy(MatrizConductancia(:,j),dFermiDist);
 
 % figure
