@@ -25,7 +25,7 @@
 %
 % NOTA: se utilizan las variables globales lineas e iV
  
-function [MatrizNormalizada] = normalizacionPA(VoltajeSuperior,VoltajeInferior,Voltaje,MatrizConductancia,Filas,Columnas)
+function [MatrizNormalizada] = normalizacionPA(VoltajeSuperior,VoltajeInferior,Voltaje,MatrizConductancia)
 
 [IV, ~] = size(MatrizConductancia);
 % Filas = sqrt(Delete);

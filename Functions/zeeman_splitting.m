@@ -35,6 +35,6 @@ Conductance = conv(dFermiDist,DOSAUX,'same');
 % fig=figure;
 % plot(Voltage,Conductance)
 %Normalizamos
-Conductance = normalizacionPA(NormSup,NormInf,Voltage,Conductance,2048,2048);
+Conductance = normalizacionPA(NormSup,NormInf,Voltage,Conductance);
 
 end

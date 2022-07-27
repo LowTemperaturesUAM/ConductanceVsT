@@ -21,10 +21,10 @@ for i=1:NCurv
         MatrizCorriente(:,i),Voltage(:,i));
     if flag
     MatrizConductancia(:,i) = normalizacionPA(NormSup,NormInf,...
-        Voltage(:,i),MatrizConductancia(:,i),2048,2048);
+        Voltage(:,i),MatrizConductancia(:,i));
     end
 end
-% MatrizNormalizada = normalizacionPA(NormSup,NormInf,Voltage,MatrizConductancia,2048,2048);
+% MatrizNormalizada = normalizacionPA(NormSup,NormInf,Voltage,MatrizConductancia);
 
 Matriz2Deriv = zeros(size(MatrizCorriente));
 for i=1:NCurv
@@ -59,7 +59,7 @@ for j=1:NCurv
 
 
         if flag
-        MatrizDOS(:,j) = normalizacionPA(NormSup,NormInf,Voltage(:,j),MatrizDOS(:,j),2048,2048);
+        MatrizDOS(:,j) = normalizacionPA(NormSup,NormInf,Voltage(:,j),MatrizDOS(:,j));
         end
     end
 end

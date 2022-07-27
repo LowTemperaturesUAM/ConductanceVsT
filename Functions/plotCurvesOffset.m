@@ -1,4 +1,4 @@
-function [] = plotCurvesOffset(Voltage,Matriz,Temperature,Offset,zlabel,flag)
+function [] = plotCurvesOffset(Voltage,Matriz,Temperature,Offset,zlabel,Tplot)
 
 fig=figure;
 A = size(Matriz);
@@ -6,7 +6,7 @@ NCurv = A(2);
 Leyenda = cell(1,NCurv);
 for i=NCurv:-1:1 %Orden descendente para que la leyenda quede bien ordenada (de abajo a arriba, siguiendo el orden de las curvas)
 % for i=1:NCurv
-    if flag
+    if Tplot
         Leyenda{i} = [num2str(Temperature(i)),' K'];
     else
         Leyenda{i} = [num2str(Temperature(i)),' T'];
