@@ -32,11 +32,12 @@ if Normalized
 end
 
 
-ax1.YLabel.String = '\fontsize{15} Conductance';
+ax1.YLabel.String = '\fontsize{15} Intensity (A)';
 ax1.XLabel.String = '\fontsize{15} Bias Voltage (mV)';
 
-ax2.YLabel.String = '\fontsize{15} Intensity (A)';
+ax2.YLabel.String = '\fontsize{15} Conductance';
 ax2.XLabel.String = '\fontsize{15} Bias Voltage (mV)';
+
 
 ax1.LineWidth = 2;
 ax1.XColor = [0 0 0];
