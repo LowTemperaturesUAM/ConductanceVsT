@@ -14,6 +14,7 @@ if isfield(dataIn,'Struct')
     varOut = dataIn.Struct;
 else %return an empy struct
     varOut = struct([]);
+    warning("Provided file does not contain a variable named Struct")
 end
 
 end
